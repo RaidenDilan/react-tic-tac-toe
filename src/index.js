@@ -2,23 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// Here, Square is a React component class, or React component type
-// The Square component above only renders built-in DOM components like <button /> etc. />
-class Square extends React.Component {
-  // The Square component renders a single <button>
-  // The render method returns a description of what you want to see on the screen
-  render() {
-    return (
-      // Passing a prop (porperty) from the parent Board component to the child Square component.
-      // When you call setState in a component, React automatically updates the child components inside of it too.
-      <button
-        className="square"
-        onClick={() => this.props.onClick() }
-        >
-        { this.props.value }
-      </button>
-    );
-  }
+// Replaced Sqaure Component to a function components
+function Square(props) {
+  return (
+    <button className="square" onClick={ props.onClick }>
+      { props.value }
+    </button>
+  );
+
+  // When we modified the Square to be a function component,
+  // we also changed onClick={() => this.props.onClick()} to a shorter onClick={props.onClick}
+  // (note the lack of parentheses on both sides).
+  // In a class, we used an arrow function to access the correct this value,
+  // but in a function component we don’t need to worry about this.
 }
 
 class Board extends React.Component {
@@ -39,7 +35,7 @@ class Board extends React.Component {
   };
 
   handleClick(i) {
-    const squares = this.state.squares.slice();
+    const squares = this.state.squares.slice(); // In handleClick, we call .slice() to create a copy of the squares array to modify instead of modifying the existing array.
     squares[i] = 'X';
     this.setState({ squares: squares });
   }
