@@ -25,6 +25,7 @@ class Board extends React.Component {
     // Storing the current value of the Square in this.state
     this.state = {
       squares: Array(9).fill(null),
+      xIsNext: true, // Each time a player moves, xIsNext (a boolean) will be flipped to determine which player goes next and the game’s state will be saved.
       // When we fill the board in later, the board will look something like this:
       // [
       //   'O', null, 'X',
@@ -36,8 +37,11 @@ class Board extends React.Component {
 
   handleClick(i) {
     const squares = this.state.squares.slice(); // In handleClick, we call .slice() to create a copy of the squares array to modify instead of modifying the existing array.
-    squares[i] = 'X';
-    this.setState({ squares: squares });
+    squares[i] = this.state.xIsNext ? 'X' : '0';
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    });
   }
 
   renderSquare(i) {
@@ -56,7 +60,8 @@ class Board extends React.Component {
 
   // The Board component renders 9 squares
   render() {
-    const status = 'Next player: X';
+    // The “status” text in Board’s render will display which player has the next turn:
+    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : '0');
 
     return (
       <div>
